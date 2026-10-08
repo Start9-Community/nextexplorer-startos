@@ -105,13 +105,7 @@ A hand edit to either key survives — nothing re-asserts them — and `main` ho
 
 ## Dependencies
 
-One, optional, and never declared as a current dependency: nothing about NextExplorer's own operation needs File Browser.
-
-| Dependency    | Kind | Used by                                                                                           |
-| ------------- | ---- | ------------------------------------------------------------------------------------------------- |
-| `filebrowser` | —    | [Import Files from File Browser](#import-files-from-file-browser), which mounts its `data` volume |
-
-The manifest entry exists so the import action can mount the volume with a typed `mountDependency`. Either flavor under the `filebrowser` id, File Browser or FileBrowser Quantum, satisfies it, since both keep their files at the root of the same `data` volume.
+None. [Import Files from File Browser](#import-files-from-file-browser) mounts the `data` volume of whatever package has the id `filebrowser` — File Browser or FileBrowser Quantum, which both keep their files at its root — read-only, and only while it runs.
 
 ## Network Access and Interfaces
 
@@ -154,6 +148,7 @@ Generates a new random password for the bootstrapped admin account. Run it when 
 
 - **What it changes:** `adminPassword` in the package store, which reaches the application as `AUTH_ADMIN_PASSWORD` on the next start.
 - **Availability:** any status.
+- **Confirmation:** once a password is stored, the action warns before it runs that the current password stops working; the first run asks nothing.
 - **Cost:** seconds, then a restart.
 - **Repeat safety:** safe to re-run; each run generates a fresh password and the previous one stops working once the service restarts.
 - **Outputs:** the sign-in email and the new password, the password masked and copyable, shown once.
@@ -162,9 +157,9 @@ Generates a new random password for the bootstrapped admin account. Run it when 
 
 Three actions in the **Locations** group manage the immediate subdirectories of `/mnt`. NextExplorer cannot do this itself: its API refuses to create a folder at the root, and its UI offers no rename or delete on a location.
 
-- **Add Location** creates `/mnt/<name>`, owned by uid 1000.
+- **Add Location** creates `/mnt/<name>`, owned by uid 1000. A service that depends on NextExplorer can run it directly (`access: 'dependent'`) to get a location of its own; for such a caller a location that already exists is a success, not an error.
 - **Rename Location** takes a location from a select; the name field beneath it starts at that location's current name.
-- **Remove Location** takes a location from a select and deletes it recursively, only once the field beneath it holds that location's exact name; the handler checks the match again.
+- **Remove Location** takes a location from a select, with none preselected, and deletes it recursively, only once the field beneath it holds that location's exact name; the handler checks the match again.
 
 Common to all three:
 
@@ -259,13 +254,12 @@ startos_managed_env_vars:
   - TERMINAL_ENABLED # forced false
   - USER_VOLUMES # forced true
   - USER_DIR_ENABLED # forced true
-dependencies:
-  - filebrowser # optional; mounted only by import-from-filebrowser, never a current dependency
+dependencies: none # import-from-filebrowser mounts filebrowser's data volume without declaring it
 interfaces:
   ui: { type: ui, port: 3000 } # API and SPA on the same port
 actions:
   - set-admin-password
-  - add-location # group Locations
+  - add-location # group Locations; access: dependent
   - rename-location # group Locations
   - remove-location # group Locations; recursive delete
   - import-from-filebrowser # files only, reflinked into /mnt/FileBrowser
