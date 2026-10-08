@@ -18,16 +18,23 @@ Freshly scaffolded? Work the
 guide page, not a file in this repo — read it, don't copy it in.
 
 Keep `README.md` (technical reference for an AI support or administering agent) and
-`instructions.md` (end-user docs) in sync with your changes.
+`instructions.md` (end-user docs) in sync with your changes. This file restates neither:
+whoever changes the package has both, so it carries only what they don't — repo mechanics,
+a change that looks right and is not, where the next thing gets added, a naming trap, a
+build or test invocation particular to this repo.
 
-**Bugs and feature requests are GitHub issues on this repo** — file them as you find them.
+**Fix a defect you spot rather than reporting it** — you have the package open and the
+context to be sure. File **a GitHub issue on this repo** only when the call isn't yours to
+make: you can't pin the cause down, two defensible fixes exist, or it's too large to ride on
+the work in hand. An open issue is a report, not a queue — implement one when you're asked
+to or when it's labelled `Approved`, then close it with `Closes #<n>`.
+
 Don't record work in the repo instead: no `TODO.md`, no `NOTES.md`, no `PLAN.md`. What you
 verified, tried, and decided belongs in the commit message and the PR body.
 
 ## This repo
 
-- **The daemon must run as root.** The image sets no `USER`; its entrypoint calls `usermod`/`groupmod` and then `gosu`s to uid 1000. Executing the container as a non-root user makes the entrypoint fail with `groupmod: Permission denied`. Do not "fix" this by setting a user on the exec.
-- **The `prepare-storage` oneshot is load-bearing.** The entrypoint chowns `/config` and `/cache` but never `/mnt`, so StartOS's root-owned 0755 volume leaves the app able to browse but not write — a silent partial failure rather than a startup error. The oneshot also creates `/mnt/Files` whenever `/mnt` holds no location, because NextExplorer lists each immediate subdirectory of `VOLUME_ROOT` under Locations and an empty root shows the user nothing.
-- **Leave `PUBLIC_URL` unset.** Setting it pins CORS to a single origin; StartOS serves the same service over LAN and Tor addresses simultaneously.
-- **Never substitute an empty string for a missing secret.** NextExplorer skips its admin bootstrap for a password under six characters, leaving the setup wizard open to whoever reaches it first.
-- **Keep `USER_VOLUMES` and `USER_DIR_ENABLED` on.** Upstream defaults both to false: the first gives every authenticated account full read/write over every location under `VOLUME_ROOT`, the second leaves the per-account space unreachable from the UI. Neither is settable from inside the application.
+- **Run the daemon as root; never set a user on its exec.** The image's entrypoint runs `usermod`/`groupmod` before it drops to uid 1000, and fails as non-root.
+- **Keep the `prepare-storage` oneshot.** The entrypoint never chowns `/mnt`, so without it the app browses but every write fails silently.
+- **Never substitute an empty string for a missing secret.** NextExplorer skips its admin bootstrap below six characters and leaves its setup wizard open.
+- **Don't change the env `main.ts` forces.** Turning `USER_VOLUMES` or `USER_DIR_ENABLED` off gives every account every location, and setting `PUBLIC_URL` pins CORS to one of the several addresses StartOS serves.

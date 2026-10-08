@@ -62,7 +62,7 @@ Your own account is the administrator and always sees every folder.
 
 ### Actions
 
-**Set Admin Password** — generates a new random password for the admin account. Use it the first time, and any time you want to rotate the credential.
+**Set Admin Password** — generates a new random password for the admin account. Use it the first time, and any time you want to rotate the credential. Once a password is set, it asks you to confirm first, because the current password stops working.
 
 **Add Location**, **Rename Location**, **Remove Location** — in the **Locations** group. Manage the top-level folders listed under Locations in NextExplorer, which NextExplorer itself cannot create, rename or delete. Rename and Remove each start by choosing a location, and Remove asks you to type its name to confirm. Renaming or removing one breaks everything that refers to it by name: accounts you gave it to in their **Volumes** tab, share links to files inside it, and other services pointed at it. **Remove Location deletes everything in the location, permanently.**
 

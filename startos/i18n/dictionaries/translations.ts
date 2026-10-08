@@ -57,6 +57,7 @@ export default {
     52: 'Escribe ${name} para eliminarla junto con todo su contenido',
     53: 'Debe coincidir exactamente con el nombre de la ubicación',
     54: 'Introduce un nombre distinto del actual',
+    55: 'La contraseña de administrador actual deja de funcionar.',
   },
   de_DE: {
     0: 'NextExplorer wird gestartet',
@@ -114,6 +115,7 @@ export default {
     52: 'Geben Sie ${name} ein, um ihn mitsamt Inhalt zu löschen',
     53: 'Muss genau dem Namen des Standorts entsprechen',
     54: 'Geben Sie einen anderen als den aktuellen Namen ein',
+    55: 'Das aktuelle Administrator-Passwort funktioniert danach nicht mehr.',
   },
   pl_PL: {
     0: 'Uruchamianie NextExplorer',
@@ -171,6 +173,7 @@ export default {
     52: 'Wpisz ${name}, aby usunąć tę lokalizację wraz z całą zawartością',
     53: 'Musi dokładnie odpowiadać nazwie lokalizacji',
     54: 'Wpisz nazwę inną niż obecna',
+    55: 'Obecne hasło administratora przestaje działać.',
   },
   fr_FR: {
     0: 'Démarrage de NextExplorer',
@@ -228,5 +231,6 @@ export default {
     52: 'Saisissez ${name} pour le supprimer avec tout son contenu',
     53: 'Doit correspondre exactement au nom de l’emplacement',
     54: 'Saisissez un nom différent de l’actuel',
+    55: 'Le mot de passe administrateur actuel cesse de fonctionner.',
   },
 } satisfies Record<string, LangDict>

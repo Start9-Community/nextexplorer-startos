@@ -109,7 +109,11 @@ export const importFromFileBrowser = sdk.Action.withoutInput(
           readonly: true,
         }),
       'import-from-filebrowser',
-      (sub) => sub.execFail(['node', '-e', copyScript], { user: 'root' }, null),
+      (sub) =>
+        sub.execFail(['node', '-e', copyScript], {
+          user: 'root',
+          timeout: null,
+        }),
     )
 
     const n: Summary = JSON.parse(stdout.toString().trim().split('\n').pop()!)

@@ -40,7 +40,7 @@ export const renameLocation = sdk.Action.withInput(
       const locations = await listLocations()
       return {
         name: i18n('Location'),
-        default: locations[0] ?? '',
+        default: locations[0] ?? null,
         disabled: locations.length ? false : i18n('There are no locations'),
         variants: Variants.of(
           Object.fromEntries(

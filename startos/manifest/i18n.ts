@@ -19,11 +19,3 @@ export const long = {
   fr_FR:
     "NextExplorer est un gestionnaire de fichiers pour votre serveur, utilisable depuis un navigateur web. Envoyez et organisez vos fichiers, prévisualisez images, vidéos, audio et documents sans les télécharger, modifiez les fichiers texte sur place et effectuez des recherches dans l'ensemble de vos contenus. Vous pouvez créer des comptes pour d'autres personnes, attribuer à chacune son propre dossier et partager des fichiers ou dossiers précis par lien. D'autres services de votre serveur, comme Jellyfin, Immich et qBittorrent, peuvent lire et écrire les fichiers que vous conservez ici.",
 }
-
-export const filebrowserDescription = {
-  en_US: 'Source of the files to import',
-  es_ES: 'Origen de los archivos que se importan',
-  de_DE: 'Quelle der zu importierenden Dateien',
-  pl_PL: 'Źródło importowanych plików',
-  fr_FR: 'Source des fichiers à importer',
-}

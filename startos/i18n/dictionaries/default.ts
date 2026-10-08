@@ -70,6 +70,7 @@ const dict = {
   'Type ${name} to delete it and everything in it': 52,
   'Must match the location name exactly': 53,
   'Enter a name different from the current one': 54,
+  'The current admin password stops working.': 55,
 } as const
 
 /**

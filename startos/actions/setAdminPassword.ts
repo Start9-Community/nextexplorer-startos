@@ -7,12 +7,14 @@ import { adminEmail, randomPassword } from '../utils'
 export const setAdminPassword = sdk.Action.withoutInput(
   'set-admin-password',
 
-  async () => ({
+  async ({ effects }) => ({
     name: i18n('Set Admin Password'),
     description: i18n(
       'Generate a new random password for the NextExplorer admin account. Replaces any existing password.',
     ),
-    warning: null,
+    warning: (await storeJson.read((s) => s.adminPassword).const(effects))
+      ? i18n('The current admin password stops working.')
+      : null,
     allowedStatuses: 'any',
     group: null,
     visibility: 'enabled',
